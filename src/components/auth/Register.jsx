@@ -11,7 +11,7 @@ const Register = () => {
     username: "",
     email: "",
     password: "",
-    role: "USER", // Default role
+    role: "USER", 
   });
 
   const handleChange = (e) => {

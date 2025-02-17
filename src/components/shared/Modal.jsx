@@ -36,10 +36,9 @@ const Modal = ({
           </button>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-4">{children}</div>
 
-        {/* Modal Footer */}
+        <div className="p-4">{children}</div>
+        
         {footer && <div className="px-4 py-2 border-t">{footer}</div>}
       </div>
     </div>

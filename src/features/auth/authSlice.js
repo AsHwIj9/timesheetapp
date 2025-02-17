@@ -7,12 +7,15 @@ const initialState = {
   error: null,
 };
 
-// Login user
-export const login = createAsyncThunk("auth/login", async (credentials, thunkAPI) => {
+
+export const loginUser = createAsyncThunk("auth/login", async (credentials, thunkAPI) => {
   try {
-    return await authService.login(credentials);
+    const data = await authService.login(credentials);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify({ username: data.username, role: data.role }));
+    return data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data);
+    return thunkAPI.rejectWithValue(error.response?.data || "Login failed");
   }
 });
 
@@ -23,19 +26,20 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
+      .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.user;
-        localStorage.setItem("token", action.payload.token);
+        state.user = action.payload;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

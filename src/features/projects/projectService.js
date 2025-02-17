@@ -1,41 +1,75 @@
-import API from "../../utils/api";
+import axios from "axios";
 
-// Get all projects
-const getAllProjects = async () => {
-  const response = await API.get("/projects");
-  return response.data;
-};
+const BASE_URL = "http://localhost:8080/api";
 
-// Get project by ID
-const getProjectById = async (projectId) => {
-  const response = await API.get(`/projects/${projectId}`);
-  return response.data;
-};
 
-// Create a new project
-const createProject = async (projectData) => {
-  const response = await API.post("/projects", projectData);
-  return response.data;
-};
+const API = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
 
-// Update project by ID
-const updateProject = async (projectId, projectData) => {
-  const response = await API.put(`/projects/${projectId}`, projectData);
-  return response.data;
-};
 
-// Delete project by ID
-const deleteProject = async (projectId) => {
-  const response = await API.delete(`/projects/${projectId}`);
-  return response.data;
+API.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+
+const handleApiError = (error, operation) => {
+  console.error(`Error in ${operation}:`, error.response?.data || error.message);
+  if (error.response?.status === 401) {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  }
+  throw error;
 };
 
 const projectService = {
-  getAllProjects,
-  getProjectById,
-  createProject,
-  updateProject,
-  deleteProject,
+  
+  getAllProjects: async () => {
+    try {
+      const response = await API.get('/projects');
+      console.log("Fetched Projects:", response.data);
+      return response.data.map(project => ({
+        ...project,
+        assignedUsers: project.assignedUsers.length ? project.assignedUsers : ["No Users Assigned"],
+        totalBilledHours: project.totalBilledHours || 0,
+      }));
+    } catch (error) {
+      handleApiError(error, 'getAllProjects');
+    }
+  },
+
+  
+  createProject: async (projectData) => {
+    try {
+      const response = await API.post('/projects', projectData);
+      return response.data;
+    } catch (error) {
+      handleApiError(error, 'createProject');
+    }
+  },
+
+ 
+  assignUsersToProject: async (projectId, userIds) => {
+    try {
+      const response = await API.post(`/projects/${projectId}/users`, { userIds });
+      console.log("Users assigned successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      handleApiError(error, 'assignUsersToProject');
+    }
+  }
 };
 
 export default projectService;

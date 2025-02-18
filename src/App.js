@@ -13,11 +13,11 @@ const App = () => {
   return (
     <div className="App">
       <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<Login />} />
-        {/* <Route path="/register" element={<Register />} /> */}
 
-        {/* Admin Routes */}
+        <Route path="/login" element={<Login />} />
+
+
+
         <Route
           path="/admin/dashboard"
           element={
@@ -51,7 +51,7 @@ const App = () => {
           }
         />
 
-        {/* User Routes */}
+
         <Route
           path="/user/dashboard"
           element={

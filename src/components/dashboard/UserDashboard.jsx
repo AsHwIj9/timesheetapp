@@ -51,8 +51,6 @@ const UserDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    console.log("User Object:", user); 
-    console.log("User Role:", user?.role);
 
     if (user.role !== "USER") {
       setMessage("Only users can submit timesheets.");
@@ -99,7 +97,7 @@ const UserDashboard = () => {
         <div className="bg-white shadow-xl rounded-lg p-8 transform transition duration-300 hover:shadow-2xl">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Submit Timesheet</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Project Dropdown */}
+
             <select
               name="projectId"
               value={timesheet.projectId}

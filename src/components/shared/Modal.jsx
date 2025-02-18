@@ -12,9 +12,9 @@ const Modal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg max-w-lg w-full">
-        {/* Modal Header */}
+        
         <div className="px-4 py-2 border-b flex justify-between items-center">
-          <h2 className="text-lg font-semibold">{title}</h2>
+          <h2 className="text-lg font-semibold">{NeXtime}</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-800 focus:outline-none"
@@ -38,8 +38,8 @@ const Modal = ({
 
 
         <div className="p-4">{children}</div>
-        
-        {footer && <div className="px-4 py-2 border-t">{footer}</div>}
+
+        {footer && <div className="px-4 py-2 border-t">{NeXtime}</div>}
       </div>
     </div>
   );

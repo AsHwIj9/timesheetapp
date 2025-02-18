@@ -95,7 +95,7 @@ const ManageProjects = () => {
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Manage Projects</h1>
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-      {/* Projects List */}
+
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Current Projects</h2>
         {projects && projects.length > 0 ? (
@@ -125,7 +125,7 @@ const ManageProjects = () => {
         )}
       </div>
 
-      {/* Create Project Form */}
+
       <form onSubmit={handleCreateProject} className="bg-gray-100 p-6 rounded-lg shadow">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Create New Project</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -195,7 +195,7 @@ const ManageProjects = () => {
         </button>
       </form>
 
-      {/* Assign Users Form */}
+
       <form onSubmit={handleAssignUsers} className="bg-gray-100 p-6 mt-6 rounded-lg shadow">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Assign Users to Project</h2>
         <div className="grid grid-cols-1 gap-4">

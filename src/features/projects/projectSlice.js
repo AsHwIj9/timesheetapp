@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import projectService from "./projectService";
+import projectService from "./projectService.js";
 
 const initialState = {
   projects: [],
@@ -30,7 +30,7 @@ export const assignUsersToProject = createAsyncThunk(
   "projects/assignUsers",
   async ({ projectId, userIds }, thunkAPI) => {
     try {
-      return await projectService.assignUsersToProject({ projectId, userIds });
+      return await projectService.assignUsersToProject(projectId, userIds);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }

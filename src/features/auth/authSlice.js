@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import authService from "./authService";
+import authService from "./authService.js";
+
+const storedUser = localStorage.getItem("user");
 
 const initialState = {
-  user: null,
+  user: storedUser ? JSON.parse(storedUser) : null,
   isLoading: false,
   error: null,
 };
-
 
 export const loginUser = createAsyncThunk("auth/login", async (credentials, thunkAPI) => {
   try {
@@ -37,7 +38,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload;
+        state.user = { username: action.payload.username, role: action.payload.role };
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;

@@ -63,11 +63,15 @@ const projectService = {
  
   assignUsersToProject: async (projectId, userIds) => {
     try {
-      const response = await API.post(`/projects/${projectId}/users`, { userIds });
+      console.log("API Request Payload:", { projectId, userIds }); // ✅ Debugging step
+  
+      const response = await API.post(`/projects/${projectId}/users`, { projectId, userIds });
+  
       console.log("Users assigned successfully:", response.data);
       return response.data;
     } catch (error) {
-      handleApiError(error, 'assignUsersToProject');
+      console.error("Error assigning users:", error.response?.data || error.message);
+      throw error;
     }
   }
 };

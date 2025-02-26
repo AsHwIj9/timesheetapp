@@ -1,6 +1,5 @@
 import axios from "axios";
-import {getAuthHeaders} from "../timesheets/timesheetService"
-
+import {getAuthHeaders} from "../timesheets/timesheetService.js"
 
 const getAllUsers = async () => {
   const response = await axios.get("http://localhost:8080/api/users", {
@@ -9,14 +8,12 @@ const getAllUsers = async () => {
   return response.data;
 };
 
-
 const getUserById = async (userId) => {
   const response = await axios.get(`http://localhost:8080/api/users/${userId}`,{
     headers: getAuthHeaders(),
   });
   return response.data;
 };
-
 
 const getUserStats = async (startDate, endDate) => {
   const response = await axios.get("http://localhost:8080/api/users/stats/weekly", {
@@ -28,7 +25,9 @@ const getUserStats = async (startDate, endDate) => {
 
 
 const deleteUser = async (userId) => {
-  await axios.delete(`http://localhost:8080/api/users/${userId}`);
+  await axios.delete(`http://localhost:8080/api/users/${userId}`,{
+    headers: getAuthHeaders(),
+  });
 };
 
 const userService = {

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../features/auth/authSlice";
+import { loginUser } from "../../features/auth/authSlice.js";
 import { Lock, UserIcon } from "lucide-react";
 
 const Login = () => {
-  // UseState hooks should be inside the function component
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("USER");
-  const [error, setError] = useState(""); // Correct placement inside component
+  const [error, setError] = useState(""); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading } = useSelector((state) => state.auth);
@@ -46,7 +46,7 @@ const Login = () => {
           <p className="text-gray-500 mt-2">Please sign in to your account</p>
         </div>
 
-        {/* Display error message */}
+
         {error && (
           <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
             <p className="text-sm text-red-700">{error}</p>

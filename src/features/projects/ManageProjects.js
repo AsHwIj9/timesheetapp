@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProjects, createProject, assignUsersToProject} from "./projectSlice";
+import { fetchProjects, createProject, assignUsersToProject} from "./projectSlice.js";
 
 const ManageProjects = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const ManageProjects = () => {
     startDate: "",
     endDate: "",
     status: "ACTIVE",
-    assignedUsers: "",
+    assignedUsers: [],
     totalBudgetHours: "",
     totalBilledHours: "",
   });
@@ -59,7 +59,7 @@ const ManageProjects = () => {
         startDate: "",
         endDate: "",
         status: "ACTIVE",
-        assignedUsers: "",
+        assignedUsers: [],
         totalBudgetHours: "",
         totalBilledHours: "",
       });
@@ -75,9 +75,12 @@ const ManageProjects = () => {
     e.preventDefault();
     try {
       const assignPayload = {
-        projectId: assignData.projectId,
+        projectId: assignData.projectId.trim(), // Ensure it's not empty
         userIds: assignData.userIds.split(",").map((id) => id.trim()),
       };
+  
+      console.log("Sending payload:", assignPayload); // ✅ Debugging step
+  
       await dispatch(assignUsersToProject(assignPayload)).unwrap();
       setAssignData({ projectId: "", userIds: "" });
       dispatch(fetchProjects());

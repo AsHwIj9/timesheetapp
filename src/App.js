@@ -1,23 +1,24 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import AdminDashboard from "./components/dashboard/AdminDashboard";
-import UserDashboard from "./components/dashboard/UserDashboard";
-import Login from "./components/auth/Login";
-
-import ManageUsers from "./features/users/ ManageUsers"
-import ManageProjects from "./features/projects/ ManageProjects"
-import ManageTimesheets from "./features/timesheets/ManageTimesheets";
-import ProtectedRoute from "./components/shared/ProtectedRoute";
+import { Routes, Route, Navigate } from "react-router-dom";
+import AdminDashboard from "./components/dashboard/AdminDashboard.jsx";
+import UserDashboard from "./components/dashboard/UserDashboard.jsx";
+import Login from "./components/auth/Login.jsx";
+import ManageUsers from "./features/users/ManageUsers.js";
+import ManageProjects from "./features/projects/ManageProjects.js";
+import ManageTimesheets from "./features/timesheets/ManageTimesheets.js";
+import ProtectedRoute from "./components/shared/ProtectedRoute.jsx";
 
 const App = () => {
   return (
     <div className="App">
       <Routes>
+        
+        <Route path="/" element={<Navigate to="/login" />} />
 
+       
         <Route path="/login" element={<Login />} />
 
-
-
+        
         <Route
           path="/admin/dashboard"
           element={
@@ -51,7 +52,7 @@ const App = () => {
           }
         />
 
-
+        
         <Route
           path="/user/dashboard"
           element={
@@ -60,6 +61,9 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        
+        <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
     </div>
   );

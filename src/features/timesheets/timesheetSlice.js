@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import timesheetService from "./timesheetService";
+import timesheetService from "./timesheetService.js";
 
 
 export const fetchUserTimesheets = createAsyncThunk(
@@ -65,6 +65,30 @@ export const rejectTimesheet = createAsyncThunk(
   }
 );
 
+export const fetchTimesheetById = createAsyncThunk(
+  "timesheets/fetchById",
+  async (timesheetId, thunkAPI) => {
+    try {
+      const response = await timesheetService.getTimesheetById(timesheetId);
+      return [response]; 
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+export const fetchTimesheetStats = createAsyncThunk(
+  "timesheets/fetchStats",
+  async (_, thunkAPI) => {
+    try {
+      const response = await timesheetService.getTimesheetStats();
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 export const submitTimesheet = createAsyncThunk(
   "timesheets/submit",
   async (timesheetData, thunkAPI) => {
@@ -96,7 +120,7 @@ const timesheetSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch User Timesheets
+
       .addCase(fetchUserTimesheets.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -110,7 +134,7 @@ const timesheetSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Fetch Project Timesheets
+
       .addCase(fetchProjectTimesheets.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -124,7 +148,7 @@ const timesheetSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Approve Timesheet
+
       .addCase(approveTimesheet.pending, (state) => {
         state.error = null;
       })
@@ -150,7 +174,34 @@ const timesheetSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Reject Timesheet
+
+      .addCase(fetchTimesheetById.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchTimesheetById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.timesheets = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchTimesheetById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(fetchTimesheetStats.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchTimesheetStats.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.stats = action.payload;
+      })
+      .addCase(fetchTimesheetStats.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
       .addCase(rejectTimesheet.pending, (state) => {
         state.error = null;
       })

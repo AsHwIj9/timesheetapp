@@ -40,7 +40,28 @@ const timesheetService = {
     }
   },
 
- 
+  getTimesheetById: async (timesheetId) => {
+    try {
+      const response = await axios.get(`${API_URL}/${timesheetId}`, {
+        headers: getAuthHeaders(),
+      });
+      return response.data;
+    } catch (error) {
+      handleApiError(error, "getTimesheetById");
+    }
+  },
+
+  getTimesheetStats: async () => {
+    try {
+      const response = await axios.get(`${API_URL}/stats/summary`, {
+        headers: getAuthHeaders(),
+      });
+      return response.data;
+    } catch (error) {
+      handleApiError(error, "getTimesheetStats");
+    }
+  },
+
   getProjectTimesheets: async (projectId, startDate, endDate) => {
     try {
       if (!startDate || !endDate) {
@@ -55,7 +76,6 @@ const timesheetService = {
       handleApiError(error, 'getProjectTimesheets');
     }
   },
-
   
   approveTimesheet: async (timesheetId) => {
     try {
@@ -107,7 +127,7 @@ const timesheetService = {
   
   getCurrentUserTimesheets: async () => {
     try {
-      const response = await axios.get(`${API_URL}/me`, {
+      const response = await axios.get(`${API_URL}`, {
         headers: getAuthHeaders(),
       });
       return response.data;

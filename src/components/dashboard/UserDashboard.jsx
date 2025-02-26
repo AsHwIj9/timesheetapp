@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { submitTimesheet } from "../../features/timesheets/timesheetSlice";
+import { submitTimesheet } from "../../features/timesheets/timesheetSlice.js";
 import axios from "axios";
 
 const UserDashboard = () => {
   const dispatch = useDispatch();
- const { user, isLoading, error } = useSelector((state) => ({
-  user: state.auth.user,
-  isLoading: state.timesheets.isLoading,
-  error: state.timesheets.error
-}));
+  
+
+  const { user, isLoading, error } = useSelector((state) => ({
+    user: state.auth.user,
+    isLoading: state.timesheets.isLoading,
+    error: state.timesheets.error,
+  }));
 
   const [projects, setProjects] = useState([]);
   const [timesheet, setTimesheet] = useState({
@@ -50,7 +52,6 @@ const UserDashboard = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
 
     if (user.role !== "USER") {
       setMessage("Only users can submit timesheets.");
@@ -79,7 +80,7 @@ const UserDashboard = () => {
           <p>Loading...</p>
         </div>
       )}
-      
+
       {error && (
         <div className="text-red-500 text-center mb-4">
           {error}
@@ -92,7 +93,6 @@ const UserDashboard = () => {
             Hello, <span className="text-blue-600">User!</span>
           </h1>
         </div>
-
 
         <div className="bg-white shadow-xl rounded-lg p-8 transform transition duration-300 hover:shadow-2xl">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Submit Timesheet</h2>
@@ -155,6 +155,8 @@ const UserDashboard = () => {
 
             {message && <p className="text-red-500 mt-2">{message}</p>}
           </form>
+
+
         </div>
       </div>
     </div>
